@@ -24,4 +24,14 @@ public class CatalogStateRecord {
     private String supplier;
     @Column(name = "synced_at", nullable = false)
     private LocalDateTime syncedAt;
+
+    public CatalogStateRecord(
+            Long id,
+            String supplier,
+            LocalDateTime syncedAt
+    ) {
+        this.id = id;
+        this.supplier = supplier;
+        this.syncedAt = syncedAt;
+    }
 }

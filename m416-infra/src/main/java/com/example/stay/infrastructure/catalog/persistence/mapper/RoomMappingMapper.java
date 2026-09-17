@@ -1,14 +1,14 @@
 package com.example.stay.infrastructure.catalog.persistence.mapper;
 
-import com.example.stay.catalog.domain.model.CatalogRoomMapping;
+import com.example.stay.catalog.domain.model.RoomMapping;
 import com.example.stay.infrastructure.catalog.persistence.entity.RoomMappingRecord;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class RoomMappingMapper {
-    public static CatalogRoomMapping toDomain(RoomMappingRecord record) {
-        return CatalogRoomMapping.restore(
+    public static RoomMapping toDomain(RoomMappingRecord record) {
+        return new RoomMapping(
                 record.getId(),
                 record.getStayId(),
                 record.getRoomCode(),
@@ -16,7 +16,7 @@ public final class RoomMappingMapper {
         );
     }
 
-    public static RoomMappingRecord toRecord(CatalogRoomMapping domain) {
+    public static RoomMappingRecord toRecord(RoomMapping domain) {
         return new RoomMappingRecord(
                 domain.getId(),
                 domain.getStayId(),

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class StayMappingMapper {
     public static StayMapping toDomain(StayMappingRecord record) {
-        return StayMapping.restore(
+        return new StayMapping(
                 record.getId(),
                 record.getSupplier(),
                 record.getStayCode(),

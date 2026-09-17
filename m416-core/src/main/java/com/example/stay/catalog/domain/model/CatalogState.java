@@ -10,11 +10,14 @@ public final class CatalogState {
     private final String supplier;
     private LocalDateTime syncedAt;
 
-    private CatalogState(
+    public CatalogState(
             Long id,
             String supplier,
             LocalDateTime syncedAt
     ) {
+        if (id != null && id <= 0) {
+            throw new IllegalArgumentException("ID는 지정된 경우 양수여야 합니다.");
+        }
         if (supplier == null || supplier.isBlank()) {
             throw new IllegalArgumentException("공급사는 필수입니다.");
         }
@@ -24,21 +27,6 @@ public final class CatalogState {
         this.id = id;
         this.supplier = supplier;
         this.syncedAt = syncedAt;
-    }
-
-    public static CatalogState restore(
-            Long id,
-            String supplier,
-            LocalDateTime syncedAt
-    ) {
-        if (id == null || id <= 0) {
-            throw new IllegalArgumentException("복원할 ID는 양수여야 합니다.");
-        }
-        return new CatalogState(
-                id,
-                supplier,
-                syncedAt
-        );
     }
 
     public static CatalogState create(

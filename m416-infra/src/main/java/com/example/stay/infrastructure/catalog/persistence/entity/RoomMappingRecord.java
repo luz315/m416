@@ -28,4 +28,16 @@ public class RoomMappingRecord {
     private String roomCode;
     @Column(nullable = false)
     private boolean active;
+
+    public RoomMappingRecord(
+            Long id,
+            Long stayId,
+            String roomCode,
+            boolean active
+    ) {
+        this.id = id;
+        this.stayId = stayId;
+        this.roomCode = roomCode;
+        this.active = active;
+    }
 }

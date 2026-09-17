@@ -9,12 +9,15 @@ public final class StayMapping {
     private final String stayCode;
     private boolean active;
 
-    private StayMapping(
+    public StayMapping(
             Long id,
             String supplier,
             String stayCode,
             boolean active
     ) {
+        if (id != null && id <= 0) {
+            throw new IllegalArgumentException("ID는 지정된 경우 양수여야 합니다.");
+        }
         if (supplier == null || supplier.isBlank()) {
             throw new IllegalArgumentException("공급사는 필수입니다.");
         }
@@ -25,23 +28,6 @@ public final class StayMapping {
         this.supplier = supplier;
         this.stayCode = stayCode;
         this.active = active;
-    }
-
-    public static StayMapping restore(
-            Long id,
-            String supplier,
-            String stayCode,
-            boolean active
-    ) {
-        if (id == null || id <= 0) {
-            throw new IllegalArgumentException("복원할 ID는 양수여야 합니다.");
-        }
-        return new StayMapping(
-                id,
-                supplier,
-                stayCode,
-                active
-        );
     }
 
     public static StayMapping create(

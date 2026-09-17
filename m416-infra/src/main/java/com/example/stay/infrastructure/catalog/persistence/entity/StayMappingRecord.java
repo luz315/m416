@@ -28,4 +28,16 @@ public class StayMappingRecord {
     private String stayCode;
     @Column(nullable = false)
     private boolean active;
+
+    public StayMappingRecord(
+            Long id,
+            String supplier,
+            String stayCode,
+            boolean active
+    ) {
+        this.id = id;
+        this.supplier = supplier;
+        this.stayCode = stayCode;
+        this.active = active;
+    }
 }

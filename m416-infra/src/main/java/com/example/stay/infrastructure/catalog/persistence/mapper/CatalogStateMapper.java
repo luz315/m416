@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class CatalogStateMapper {
     public static CatalogState toDomain(CatalogStateRecord record) {
-        return CatalogState.restore(
+        return new CatalogState(
                 record.getId(),
                 record.getSupplier(),
                 record.getSyncedAt()
