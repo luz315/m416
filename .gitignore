@@ -1,0 +1,10 @@
+.gradle/
+**/build/
+.idea/
+*.iml
+.local-data/
+*.log
+.env
+# 로컬 참고 자료는 배포하지 않는다.
+*.pdf
+download/

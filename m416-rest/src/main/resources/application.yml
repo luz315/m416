@@ -1,0 +1,40 @@
+server:
+  port: 8080
+  address: 127.0.0.1
+spring:
+  application:
+    name: m416-rest
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/m416
+    username: root
+    password: 0000
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+
+  mvc:
+    async:
+      request-timeout: 10s
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+suppliers:
+  connect-timeout-ms: 300
+  response-timeout-ms: 1200
+  request-timeout-ms: 1500
+  a:
+    base-url: http://127.0.0.1:9090
+    api-key: local-demo-key
+  b:
+    base-url: http://127.0.0.1:9090
+    api-key: local-demo-key
+catalog:
+  sync-on-startup: true

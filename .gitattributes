@@ -1,0 +1,9 @@
+# Use LF for text files across development environments.
+* text=auto eol=lf
+
+# Keep Windows launcher line endings in the working tree.
+*.bat text eol=crlf
+
+# Do not apply text conversion to binary files.
+*.jar binary
+*.pdf binary
