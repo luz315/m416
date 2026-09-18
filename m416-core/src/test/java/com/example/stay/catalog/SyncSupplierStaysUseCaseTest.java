@@ -3,6 +3,7 @@ package com.example.stay.catalog;
 import com.example.stay.catalog.application.port.out.CatalogStateRepository;
 import com.example.stay.catalog.application.port.out.RoomMappingRepository;
 import com.example.stay.catalog.application.port.out.StayMappingRepository;
+import com.example.stay.catalog.application.service.CatalogMappingWriter;
 import com.example.stay.catalog.application.usecase.impl.SyncSupplierStaysUseCaseImpl;
 import com.example.stay.catalog.domain.model.CatalogHotel;
 import com.example.stay.catalog.domain.model.CatalogState;
@@ -31,7 +32,9 @@ class SyncSupplierStaysUseCaseTest {
         var succeeded = new FakeClient("B", CompletableFuture.completedFuture(List.of(hotel("B1"))));
         var stays = new FakeStays();
 
-        var failures = new SyncSupplierStaysUseCaseImpl(List.of(failed, succeeded), stays, new EmptyRooms(), new EmptyStates()).execute();
+        var failures = new SyncSupplierStaysUseCaseImpl(
+                List.of(failed, succeeded), new CatalogMappingWriter(stays, new EmptyRooms(), new EmptyStates())
+        ).execute();
 
         assertEquals(List.of("B"), stays.savedSuppliers);
         assertEquals(1, failures.size());
@@ -51,7 +54,9 @@ class SyncSupplierStaysUseCaseTest {
         };
 
         assertThrows(IllegalStateException.class,
-                () -> new SyncSupplierStaysUseCaseImpl(List.of(client), failingStays, new EmptyRooms(), new EmptyStates()).execute());
+                () -> new SyncSupplierStaysUseCaseImpl(
+                        List.of(client), new CatalogMappingWriter(failingStays, new EmptyRooms(), new EmptyStates())
+                ).execute());
     }
 
     private static CatalogHotel hotel(String stayCode) {
