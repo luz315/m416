@@ -4,6 +4,7 @@ import jakarta.inject.Named;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
+import com.example.stay.common.exception.InvalidCatalogException;
 import com.example.stay.catalog.application.port.out.CatalogStateRepository;
 import com.example.stay.catalog.application.port.out.RoomMappingRepository;
 import com.example.stay.catalog.application.port.out.StayMappingRepository;
@@ -72,7 +73,7 @@ public class SyncSupplierStaysUseCaseImpl implements SyncSupplierStaysUseCase {
         Set<String> stayCodes = new HashSet<>();
         for (CatalogHotel hotel : hotels) {
             if (!stayCodes.add(hotel.stayCode())) {
-                throw new IllegalArgumentException("중복 숙소 코드");
+                throw new InvalidCatalogException("중복 숙소 코드");
             }
             StayMapping stay = stays.findBySupplierAndStayCode(supplier, hotel.stayCode())
                     .map(existing -> {
@@ -84,7 +85,7 @@ public class SyncSupplierStaysUseCaseImpl implements SyncSupplierStaysUseCase {
             Set<String> roomCodes = new HashSet<>();
             for (CatalogHotel.CatalogRoom room : hotel.rooms()) {
                 if (!roomCodes.add(room.code())) {
-                    throw new IllegalArgumentException("중복 객실 코드");
+                    throw new InvalidCatalogException("중복 객실 코드");
                 }
                 rooms.findByStayIdAndRoomCode(stay.getId(), room.code()).ifPresentOrElse(existing -> {
                     existing.activate();
