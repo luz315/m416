@@ -1,0 +1,50 @@
+package com.example.stay.catalog.domain.model;
+
+import com.example.stay.common.exception.InvalidMappingException;
+import lombok.Getter;
+
+import java.time.LocalDateTime;
+
+@Getter
+public final class CatalogState {
+    private final Long id;
+    private final String supplier;
+    private LocalDateTime syncedAt;
+
+    public CatalogState(
+            Long id,
+            String supplier,
+            LocalDateTime syncedAt
+    ) {
+        if (id != null && id <= 0) {
+            throw new InvalidMappingException("ID는 지정된 경우 양수여야 합니다.");
+        }
+        if (supplier == null || supplier.isBlank()) {
+            throw new InvalidMappingException("공급사는 필수입니다.");
+        }
+        if (syncedAt == null) {
+            throw new InvalidMappingException("동기화 시각은 필수입니다.");
+        }
+        this.id = id;
+        this.supplier = supplier;
+        this.syncedAt = syncedAt;
+    }
+
+    public static CatalogState create(
+            String supplier,
+            LocalDateTime syncedAt
+    ) {
+        return new CatalogState(
+                null,
+                supplier,
+                syncedAt
+        );
+    }
+
+    public void updateSyncedAt(LocalDateTime syncedAt) {
+        if (syncedAt == null) {
+            throw new InvalidMappingException("동기화 시각은 필수입니다.");
+        }
+        this.syncedAt = syncedAt;
+    }
+}
