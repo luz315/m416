@@ -1,5 +1,6 @@
 package com.example.stay.catalog.domain.model;
 
+import com.example.stay.common.exception.InvalidMappingException;
 import lombok.Getter;
 
 @Getter
@@ -16,13 +17,13 @@ public final class StayMapping {
             boolean active
     ) {
         if (id != null && id <= 0) {
-            throw new IllegalArgumentException("ID는 지정된 경우 양수여야 합니다.");
+            throw new InvalidMappingException("ID는 지정된 경우 양수여야 합니다.");
         }
         if (supplier == null || supplier.isBlank()) {
-            throw new IllegalArgumentException("공급사는 필수입니다.");
+            throw new InvalidMappingException("공급사는 필수입니다.");
         }
         if (stayCode == null || stayCode.isBlank()) {
-            throw new IllegalArgumentException("숙소 코드는 필수입니다.");
+            throw new InvalidMappingException("숙소 코드는 필수입니다.");
         }
         this.id = id;
         this.supplier = supplier;

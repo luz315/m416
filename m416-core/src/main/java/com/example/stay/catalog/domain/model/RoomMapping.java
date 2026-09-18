@@ -1,5 +1,6 @@
 package com.example.stay.catalog.domain.model;
 
+import com.example.stay.common.exception.InvalidMappingException;
 import lombok.Getter;
 
 @Getter
@@ -16,13 +17,13 @@ public final class RoomMapping {
             boolean active
     ) {
         if (id != null && id <= 0) {
-            throw new IllegalArgumentException("ID는 지정된 경우 양수여야 합니다.");
+            throw new InvalidMappingException("ID는 지정된 경우 양수여야 합니다.");
         }
         if (roomCode == null || roomCode.isBlank()) {
-            throw new IllegalArgumentException("객실 코드는 필수입니다.");
+            throw new InvalidMappingException("객실 코드는 필수입니다.");
         }
         if (stayId == null || stayId <= 0) {
-            throw new IllegalArgumentException("숙소 ID는 양수여야 합니다.");
+            throw new InvalidMappingException("숙소 ID는 양수여야 합니다.");
         }
         this.id = id;
         this.stayId = stayId;

@@ -1,6 +1,7 @@
 package com.example.stay.infrastructure.http.supplier.a;
 
 import com.example.stay.catalog.domain.model.CatalogHotel;
+import com.example.stay.common.exception.InvalidSupplierResponseException;
 import com.example.stay.infrastructure.http.supplier.a.dto.SupplierAResponse;
 import com.example.stay.infrastructure.http.supplier.normalization.OfferNormalizer;
 import com.example.stay.search.application.port.out.SupplierClient;
@@ -96,10 +97,10 @@ public final class SupplierAClient implements SupplierClient {
                     Set<List<String>> seen = new HashSet<>();
                     return response.items().stream().map(item -> {
                         if (!requestedCodes.contains(item.hotelCode())) {
-                            throw new IllegalArgumentException("요청하지 않은 숙소 응답");
+                            throw new InvalidSupplierResponseException("요청하지 않은 숙소 응답");
                         }
                         if (!seen.add(List.of(item.hotelCode(), item.roomTypeCode()))) {
-                            throw new IllegalArgumentException("중복 상품");
+                            throw new InvalidSupplierResponseException("중복 상품");
                         }
                         return normalizer.fromA(item, criteria);
                     }).toList();
