@@ -3,6 +3,7 @@ package com.example.stay.infrastructure;
 import com.example.stay.catalog.application.port.out.CatalogStateRepository;
 import com.example.stay.catalog.application.port.out.RoomMappingRepository;
 import com.example.stay.catalog.application.port.out.StayMappingRepository;
+import com.example.stay.catalog.application.service.CatalogMappingWriter;
 import com.example.stay.catalog.application.usecase.SyncSupplierStaysUseCase;
 import com.example.stay.catalog.application.usecase.impl.SyncSupplierStaysUseCaseImpl;
 import com.example.stay.catalog.domain.model.CatalogHotel;
@@ -221,9 +222,12 @@ class NormalizationAndMappingTest {
         @Bean SupplierClient supplierB(CatalogFixture fixture) {
             return new FixtureSupplierClient("B", fixture);
         }
-        @Bean SyncSupplierStaysUseCase catalogSync(List<SupplierClient> clients, StayMappingRepository stays,
-                                                   RoomMappingRepository rooms, CatalogStateRepository states) {
-            return new SyncSupplierStaysUseCaseImpl(clients, stays, rooms, states);
+        @Bean CatalogMappingWriter catalogMappingWriter(StayMappingRepository stays, RoomMappingRepository rooms,
+                                                        CatalogStateRepository states) {
+            return new CatalogMappingWriter(stays, rooms, states);
+        }
+        @Bean SyncSupplierStaysUseCase catalogSync(List<SupplierClient> clients, CatalogMappingWriter writer) {
+            return new SyncSupplierStaysUseCaseImpl(clients, writer);
         }
         @Bean OfferNormalizer offerNormalizer(StayMappingRepository stays, RoomMappingRepository rooms) {
             return new OfferNormalizer(stays, rooms);

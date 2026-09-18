@@ -71,7 +71,7 @@ class SupplierHttpTest {
     void retryTransientFailure() {
         unavailableResponses.set(1);
         body.set("{\"items\":[]}");
-        assertTrue(supplierAClient().catalog().toCompletableFuture().join().isEmpty());
+        assertTrue(supplierAClient(3).catalog().toCompletableFuture().join().isEmpty());
         assertEquals(2, queries.size());
     }
     @Test @DisplayName("연결 후 무응답은 제한 시간 내 TIMEOUT으로 종료한다")
@@ -134,11 +134,15 @@ class SupplierHttpTest {
     }
 
     private SupplierAClient supplierAClient() {
-        return new SupplierAClient(webClient, normalizer(), 500, 3, 10);
+        return supplierAClient(1);
+    }
+
+    private SupplierAClient supplierAClient(int retryAttempts) {
+        return new SupplierAClient(webClient, normalizer(), 500, retryAttempts, 10);
     }
 
     private SupplierBClient supplierBClient() {
-        return new SupplierBClient(webClient, normalizer(), 500, 3, 10);
+        return new SupplierBClient(webClient, normalizer(), 500, 1, 10);
     }
 
     private static class EmptyStays implements StayMappingRepository {
